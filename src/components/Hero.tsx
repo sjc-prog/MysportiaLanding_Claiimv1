@@ -75,23 +75,22 @@ export default function Hero({ onVenueSelect }: Props) {
             </div>
           </div>
 
-          {/* Right: the product video */}
+          {/* Right: the hype video */}
           <div className="relative">
             <div className="overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/50">
               <video
                 className="aspect-[4/3] w-full bg-ink-800 object-cover"
-                poster="/assets/brand/video-poster.png"
                 autoPlay
                 muted
                 loop
                 playsInline
-                src="/assets/brand/product-tour.mp4"
+                src="/assets/brand/hype-hero.mp4"
               />
             </div>
             <div className="pointer-events-none absolute inset-x-0 -bottom-3 flex justify-center">
               <span className="flex items-center gap-2 rounded-full bg-ink-950/90 px-4 py-2 text-xs font-bold text-white/80 backdrop-blur">
                 <Play className="h-3.5 w-3.5 text-gold" />
-                See how gyms run on MySportia
+                This is MySportia
               </span>
             </div>
           </div>
