@@ -80,7 +80,7 @@ export default function Hero({ onVenueSelect }: Props) {
           <div className="relative">
             <ScrollVideo
               src="/assets/brand/hype-hero.mp4"
-              className="aspect-[4/3] border border-white/10 bg-ink-800 shadow-2xl shadow-black/50"
+              className="aspect-video border border-white/10 bg-ink-800 shadow-2xl shadow-black/50"
             />
             <div className="pointer-events-none absolute inset-x-0 -bottom-3 flex justify-center">
               <span className="flex items-center gap-2 rounded-full bg-ink-950/90 px-4 py-2 text-xs font-bold text-white/80 backdrop-blur">
