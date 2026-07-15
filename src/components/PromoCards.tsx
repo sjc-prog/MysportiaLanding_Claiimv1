@@ -7,7 +7,7 @@ import { BadgeCheck, CalendarCheck, Globe2, QrCode, Star } from 'lucide-react';
 /* Shared card chrome: a mini product screen floating on the dark funnel bg */
 function Screen({ children, caption }: { children: React.ReactNode; caption: string }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#f5f6f7] shadow-2xl shadow-black/40">
+    <div className="overflow-hidden rounded-2xl bg-[#f5f6f7] shadow-xl shadow-ink-950/10 ring-1 ring-ink-950/5">
       <div className="p-3.5">{children}</div>
       <div className="bg-[#0f1b3d] px-4 py-2.5 text-center text-[13px] font-bold text-white">
         {caption}

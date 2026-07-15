@@ -106,11 +106,11 @@ function FinalStep({ data }: { data: FunnelData }) {
       <h1 className="mt-8 font-display text-3xl font-extrabold sm:text-4xl">
         {data.venueName || 'Your gym'} is claimed. 🥊
       </h1>
-      <p className="mt-4 text-lg text-white/70">
+      <p className="mt-4 text-lg text-ink-600">
         A real person will confirm your claim and finish your setup with you.
         Fastest way to go live: grab a call slot now.
       </p>
-      <p className="mt-8 text-sm text-white/40">
+      <p className="mt-8 text-sm font-semibold text-ink-600/70">
         Check your phone — we've sent a confirmation to the contact you provided.
       </p>
     </div>

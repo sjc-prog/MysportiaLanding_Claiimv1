@@ -7,77 +7,67 @@ interface Props {
 }
 
 /**
- * Hero per Justin's walkthrough (2026-07-15): undisturbed and centered —
- * the message + the claim box only. Below them, the marketplace on real
- * devices over the map (Group 4844). Video moved below the numbers band.
- * Brand-book palette: ink navy, pink, mint, yellow.
+ * Light hero in the marketplace-web-v3 design language: sky→peach wash,
+ * huge ink display type with one pink line, white sticky nav with boxed
+ * logo, white pill search, devices-on-map beneath. Structure per Justin's
+ * walkthrough: message + claim box centered, video lives below the numbers.
  */
 export default function Hero({ onVenueSelect }: Props) {
   return (
-    <header className="relative overflow-hidden bg-ink-950">
-      {/* Brand backdrop: icon-pattern texture + pink/mint glows */}
-      <div className="absolute inset-0">
-        <img
-          src="/assets/brand/dots.png"
-          alt=""
-          className="absolute left-0 top-0 w-[640px] max-w-none opacity-[0.18]"
-        />
-        <img
-          src="/assets/brand/dots.png"
-          alt=""
-          className="absolute -right-24 bottom-32 w-[520px] max-w-none rotate-180 opacity-[0.12]"
-        />
-        <div className="absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full bg-punch/25 blur-[130px]" />
-        <div className="absolute right-0 top-0 h-[380px] w-[380px] rounded-full bg-mint/15 blur-[130px]" />
-        <div className="absolute bottom-40 left-1/3 h-[300px] w-[300px] rounded-full bg-gold/10 blur-[120px]" />
+    <header className="hero-wash relative overflow-hidden">
+      {/* Soft brand blobs */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute right-[12%] top-40 h-10 w-10 rounded-full bg-mint/70" />
+        <div className="absolute -left-16 bottom-24 h-48 w-48 rounded-full bg-punch/15" />
+        <div className="absolute right-[-60px] bottom-[30%] h-40 w-40 rounded-full bg-gold/25" />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-5">
-        {/* Top bar */}
-        <div className="flex items-center justify-between">
-          <img src="/assets/brand/logo-on-black.png" alt="MySportia" className="h-8 sm:h-9" />
-          <span className="hidden text-sm font-medium text-white/60 md:block">
-            Thailand's sports & activities marketplace
+      {/* Sticky-style top bar */}
+      <div className="relative border-b border-ink-950/5 bg-white/80 backdrop-blur">
+        <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-5">
+          <span className="rounded-lg border-2 border-ink-950 bg-white px-2.5 py-1.5">
+            <img src="/assets/brand/logo-on-white.png" alt="MySportia" className="h-6" />
+          </span>
+          <span className="hidden text-sm font-semibold text-ink-600 md:block">
+            Thailand's sports &amp; activities marketplace
           </span>
         </div>
+      </div>
 
+      <div className="relative mx-auto max-w-6xl px-5 pb-10 pt-12 lg:pt-16">
         {/* Centered message + claim box */}
-        <div className="mx-auto mt-14 flex max-w-3xl flex-col items-center text-center lg:mt-20">
-          <span className="inline-flex items-center gap-2 rounded-full border border-mint/40 bg-mint/10 px-4 py-1.5 text-sm font-bold text-mint-light">
-            <CheckCircle2 className="h-4 w-4" />
-            Thailand's number one Muay Thai marketplace — launching soon
+        <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-ink-950 shadow-md shadow-ink-950/5">
+            <span className="h-2.5 w-2.5 rounded-full bg-mint" />
+            Thailand's number one Muay Thai marketplace · launching soon
           </span>
 
-          <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] sm:text-5xl xl:text-6xl">
+          <h1 className="mt-7 font-display text-[2.7rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl xl:text-7xl">
             Confirm your
-            <span className="text-gold"> Muay Thai gym.</span>
+            <br />
+            <span className="text-punch">Muay Thai gym.</span>
           </h1>
 
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/80">
-            Your Muay Thai gym, accessible to millions of global customers.
-            <span className="text-white/60">
-              {' '}
-              MySportia drives customers to Muay Thai gyms and training centres across Thailand.
-            </span>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600">
+            Your Muay Thai gym, accessible to millions of global customers. MySportia
+            drives customers to Muay Thai gyms and training centres across Thailand.
           </p>
 
-          <div className="mt-8 flex w-full max-w-xl flex-col items-center">
-            <p className="mb-3 font-semibold text-white/90">
-              Claim your venue now — find your gym:
-            </p>
+          <div className="mt-9 flex w-full max-w-xl flex-col items-center">
             <VenueSearch onSelect={onVenueSelect} />
-            <p className="mt-3 text-sm text-white/50">
-              400+ Muay Thai gyms already listed · free to claim · 2 minutes on your phone
+            <p className="mt-3 flex flex-wrap items-center justify-center gap-x-2 text-sm font-semibold text-ink-600">
+              <CheckCircle2 className="h-4 w-4 text-mint" />
+              400+ gyms already listed · free to claim · 2 minutes on your phone
             </p>
           </div>
         </div>
 
         {/* The marketplace, in function: devices over the map */}
-        <div className="relative mx-auto mt-12 max-w-5xl">
+        <div className="relative mx-auto mt-14 max-w-5xl">
           <img
             src="/assets/brand/devices-map.png"
             alt="MySportia marketplace on desktop, tablet and phone — map search, venue profile, bookings"
-            className="w-full"
+            className="w-full rounded-3xl"
           />
         </div>
       </div>

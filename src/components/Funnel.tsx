@@ -119,14 +119,14 @@ export default function Funnel({ venue, onFinish }: Props) {
       {/* Progress */}
       <div className="mb-8">
         <div className="mb-2 flex items-center justify-between text-sm">
-          <span className="font-semibold text-white/70">
+          <span className="font-bold text-ink-600">
             Step {step + 1} of {total}
           </span>
-          <span className="font-bold text-gold">{Math.round(((step + 1) / total) * 100)}%</span>
+          <span className="font-extrabold text-punch">{Math.round(((step + 1) / total) * 100)}%</span>
         </div>
-        <div className="h-2 overflow-hidden rounded-full bg-ink-700">
+        <div className="h-2 overflow-hidden rounded-full bg-ink-950/10">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-gold to-punch transition-all duration-500"
+            className="h-full rounded-full bg-gradient-to-r from-punch to-gold transition-all duration-500"
             style={{ width: `${((step + 1) / total) * 100}%` }}
           />
         </div>
@@ -137,8 +137,10 @@ export default function Funnel({ venue, onFinish }: Props) {
 
       {/* The ask */}
       <div key={`ask-${step}`} className="animate-fade-up">
-        <h2 className="font-display text-2xl font-bold sm:text-3xl">{current.title}</h2>
-        {current.hint && <p className="mt-2 text-white/60">{current.hint}</p>}
+        <h2 className="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">
+          {current.title}
+        </h2>
+        {current.hint && <p className="mt-2 text-ink-600">{current.hint}</p>}
         <div className="mt-6">{current.body}</div>
       </div>
 
@@ -147,7 +149,7 @@ export default function Funnel({ venue, onFinish }: Props) {
         {step > 0 && (
           <button
             onClick={() => setStep(step - 1)}
-            className="flex items-center gap-1.5 rounded-full border border-white/20 px-5 py-3.5 font-semibold text-white/80 hover:bg-white/5"
+            className="flex items-center gap-1.5 rounded-full bg-white px-5 py-3.5 font-bold text-ink-950 shadow-sm ring-1 ring-ink-950/10 hover:bg-paper-3"
           >
             <ArrowLeft className="h-4 w-4" /> Back
           </button>
@@ -155,13 +157,13 @@ export default function Funnel({ venue, onFinish }: Props) {
         <button
           onClick={next}
           disabled={current.canContinue === false}
-          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 font-bold text-ink-950 shadow-lg shadow-gold/25 transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-punch px-6 py-3.5 font-extrabold text-white shadow-lg shadow-punch/25 transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
         >
           {step + 1 >= total ? 'See my gym on MySportia' : current.cta ?? 'Continue'}
           <ArrowRight className="h-5 w-5" />
         </button>
       </div>
-      <p className="mt-4 text-center text-sm text-white/40">
+      <p className="mt-4 text-center text-sm font-semibold text-ink-600/70">
         Skip anything you're not sure about — we'll finish it together on your setup call.
       </p>
     </div>
@@ -189,7 +191,7 @@ function buildSteps(
   const input = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
     <input
       {...props}
-      className="w-full rounded-xl border border-white/15 bg-ink-800 px-4 py-3.5 text-white placeholder:text-white/30 focus:border-gold focus:outline-none"
+      className="w-full rounded-2xl bg-white px-4 py-3.5 text-ink-950 shadow-sm ring-1 ring-ink-950/10 placeholder:text-ink-600/50 focus:outline-none focus:ring-2 focus:ring-punch"
     />
   );
 
@@ -199,10 +201,10 @@ function buildSteps(
         <button
           key={o}
           onClick={() => onTap(o)}
-          className={`rounded-full border px-4 py-2.5 font-semibold transition-colors ${
+          className={`rounded-full px-4 py-2.5 font-bold transition-colors ${
             selected.includes(o)
-              ? 'border-gold bg-gold text-ink-950'
-              : 'border-white/20 text-white/80 hover:border-white/40'
+              ? 'bg-punch text-white shadow-md shadow-punch/25'
+              : 'bg-white text-ink-950 shadow-sm ring-1 ring-ink-950/10 hover:ring-ink-950/25'
           }`}
         >
           {o}
@@ -224,9 +226,9 @@ function buildSteps(
       body: (
         <div className="space-y-3">
           {venue && (
-            <div className="mb-4 flex items-center gap-2 rounded-xl bg-brand-green/15 px-4 py-3 text-brand-green">
+            <div className="mb-4 flex items-center gap-2 rounded-2xl bg-mint/10 px-4 py-3 text-[#0e7a44] ring-1 ring-mint/30">
               <BadgeCheck className="h-5 w-5 shrink-0" />
-              <span className="font-semibold">Found in the MySportia venue list</span>
+              <span className="font-bold">Found in the MySportia venue list</span>
             </div>
           )}
           {input({
@@ -373,14 +375,14 @@ function buildSteps(
       hint: 'Next: a preview of your venue profile and back office — then a quick call takes you live.',
       promo: <ConciergeCard />,
       body: (
-        <div className="rounded-2xl border border-white/10 bg-ink-800 p-5">
-          <p className="font-semibold text-white/90">{data.venueName || 'Your gym'}</p>
-          <p className="mt-1 text-sm text-white/50">
+        <div className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-ink-950/5">
+          <p className="font-extrabold text-ink-950">{data.venueName || 'Your gym'}</p>
+          <p className="mt-1 text-sm text-ink-600">
             {[data.area, data.city].filter(Boolean).join(', ') || 'Thailand'}
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
             {(data.services.length ? data.services : ['Group classes']).map((s) => (
-              <span key={s} className="rounded-full bg-gold/15 px-3 py-1 text-xs font-bold text-gold">
+              <span key={s} className="rounded-full bg-punch/10 px-3 py-1 text-xs font-extrabold text-punch">
                 {s}
               </span>
             ))}

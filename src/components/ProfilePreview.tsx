@@ -22,18 +22,18 @@ export default function ProfilePreview({ data, onContinue }: Props) {
 
   return (
     <div className="mx-auto max-w-lg px-5 pb-28 pt-6">
-      <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-sm font-bold text-gold">
+      <div className="mb-5 flex w-fit items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-extrabold text-punch shadow-sm ring-1 ring-ink-950/5">
         <Sparkles className="h-4 w-4" />
         PREVIEW — your public profile
       </div>
 
       <h2 className="font-display text-2xl font-extrabold sm:text-3xl">
         This is how {gymName} will look
-        <span className="text-gold"> to global users.</span>
+        <span className="text-punch"> to global users.</span>
       </h2>
 
       {/* Consumer profile card */}
-      <div className="mt-6 overflow-hidden rounded-3xl bg-white text-ink-900 shadow-2xl shadow-black/40">
+      <div className="mt-6 overflow-hidden rounded-3xl bg-white text-ink-900 shadow-2xl shadow-ink-950/15 ring-1 ring-ink-950/5">
         {/* Gallery — in production: their own photos from our DB record */}
         <div className="relative grid h-44 grid-cols-3 gap-0.5 overflow-hidden">
           <img src="/assets/hero-fighter.png" alt="" className="col-span-2 h-44 w-full object-cover" />
@@ -94,7 +94,7 @@ export default function ProfilePreview({ data, onContinue }: Props) {
         </div>
       </div>
 
-      <p className="mt-4 text-center text-sm text-white/50">
+      <p className="mt-4 text-center text-sm font-semibold text-ink-600/80">
         Don't worry — nothing is published yet, and you can change everything.
       </p>
 
@@ -104,7 +104,7 @@ export default function ProfilePreview({ data, onContinue }: Props) {
             trackLead({ type: 'step_completed', field: 'profile_preview', venueName: data.venueName });
             onContinue();
           }}
-          className="flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 font-bold text-ink-950 shadow-lg shadow-gold/25 transition-transform hover:scale-[1.02]"
+          className="flex items-center justify-center gap-2 rounded-full bg-punch px-6 py-4 font-extrabold text-white shadow-lg shadow-punch/25 transition-transform hover:scale-[1.02]"
         >
           Go to my dashboard <ArrowRight className="h-5 w-5" />
         </button>
@@ -113,7 +113,7 @@ export default function ProfilePreview({ data, onContinue }: Props) {
             trackLead({ type: 'field_changed', field: 'edit_later_clicked', venueName: data.venueName });
             onContinue();
           }}
-          className="rounded-full border border-white/20 px-6 py-3.5 font-semibold text-white/70 hover:bg-white/5"
+          className="rounded-full bg-white px-6 py-3.5 font-bold text-ink-950 shadow-sm ring-1 ring-ink-950/10 hover:bg-paper-3"
         >
           Edit later in your back office
         </button>

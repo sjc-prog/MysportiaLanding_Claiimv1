@@ -57,20 +57,20 @@ export default function DashboardPreview({ data, onCreateAccount }: Props) {
 
   return (
     <div className="mx-auto max-w-2xl px-5 pb-40 pt-6">
-      <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-sm font-bold text-gold">
+      <div className="mb-5 flex w-fit items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-extrabold text-punch shadow-sm ring-1 ring-ink-950/5">
         <Sparkles className="h-4 w-4" />
         PREVIEW — your back office
       </div>
 
       <h2 className="font-display text-2xl font-extrabold sm:text-3xl">
-        {gymName}, <span className="text-gold">running on autopilot.</span>
+        {gymName}, <span className="text-punch">running on autopilot.</span>
       </h2>
-      <p className="mt-2 text-white/60">
+      <p className="mt-2 text-ink-600">
         The free system every MySportia venue gets — shown with sample data. Powered by Exsportia.
       </p>
 
       {/* ——— The VMS replica ——— */}
-      <div className="mt-6 overflow-hidden rounded-3xl shadow-2xl shadow-black/50">
+      <div className="mt-6 overflow-hidden rounded-3xl shadow-2xl shadow-ink-950/20 ring-1 ring-ink-950/5">
         {/* Ink top bar — venue switcher card, exactly like the real sidebar header */}
         <div className="flex items-center justify-between bg-[#0f1b3d] px-4 py-3">
           <div className="flex items-center gap-3 rounded-2xl border border-white/5 bg-white/[0.04] p-2 pr-3">
@@ -185,7 +185,7 @@ export default function DashboardPreview({ data, onCreateAccount }: Props) {
         </div>
       </div>
 
-      <p className="mt-4 text-center text-sm text-white/40">
+      <p className="mt-4 text-center text-sm font-semibold text-ink-600/80">
         Sample data — your real setup happens on the call. We verify every claim by hand.
       </p>
 
@@ -198,7 +198,7 @@ export default function DashboardPreview({ data, onCreateAccount }: Props) {
               setSheetOpen(true);
               setSheetDismissed(false);
             }}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-gold px-6 py-4 font-bold text-ink-950 shadow-lg shadow-gold/25"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-punch px-6 py-4 font-extrabold text-white shadow-lg shadow-punch/25"
           >
             <PhoneCall className="h-5 w-5" /> Join the call — finalize my venue
           </button>
@@ -207,7 +207,7 @@ export default function DashboardPreview({ data, onCreateAccount }: Props) {
               trackLead({ type: 'account_started', venueName: data.venueName });
               onCreateAccount();
             }}
-            className="flex-1 rounded-full border border-white/25 px-6 py-4 font-bold text-white hover:bg-white/5"
+            className="flex-1 rounded-full bg-white px-6 py-4 font-bold text-ink-950 shadow-sm ring-1 ring-ink-950/10 hover:bg-paper-3"
           >
             Create my account
           </button>
@@ -220,7 +220,7 @@ export default function DashboardPreview({ data, onCreateAccount }: Props) {
           sheetOpen ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
-        <div className="mx-auto max-w-lg rounded-t-3xl border-t-2 border-gold/60 bg-ink-800 p-6 pb-8 shadow-[0_-20px_60px_rgba(0,0,0,0.6)]">
+        <div className="mx-auto max-w-lg rounded-t-3xl border-t-2 border-punch/60 bg-ink-950 p-6 pb-8 shadow-[0_-20px_60px_rgba(0,0,0,0.6)]">
           <button
             onClick={() => {
               setSheetOpen(false);
@@ -253,7 +253,7 @@ export default function DashboardPreview({ data, onCreateAccount }: Props) {
               trackLead({ type: 'call_requested', field: 'join_call_now', venueName: data.venueName });
               onCreateAccount();
             }}
-            className="mt-5 w-full rounded-full bg-gold py-4 text-center font-extrabold text-ink-950 shadow-lg shadow-gold/30 transition-transform hover:scale-[1.01]"
+            className="mt-5 w-full rounded-full bg-punch py-4 text-center font-extrabold text-white shadow-lg shadow-punch/30 transition-transform hover:scale-[1.01]"
           >
             Join the call now
           </button>

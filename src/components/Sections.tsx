@@ -4,42 +4,243 @@ import {
   CalendarDays,
   ChevronDown,
   CreditCard,
-  Megaphone,
   QrCode,
-  Rocket,
   ScanLine,
   Search,
   Smartphone,
   Store,
+  Rocket,
   Users,
 } from 'lucide-react';
 import ScrollVideo from './ScrollVideo';
 
-/* ---------- Dan: the cinematic trainer film (old-site scroll-video pattern) ---------- */
+/* ————— Design system (mysportia-marketplace-web-v3): light sections on
+   paper/peach washes, dark ink bands for proof moments, white cards,
+   pink primary / mint live / yellow highlight accents. ————— */
 
-export function DanSection() {
+/* ---------- Trust numbers — dark proof band, animated ---------- */
+
+const NUMBERS = [
+  { value: 162, suffix: 'M฿', label: 'processed through the platform' },
+  { value: 34, suffix: '', label: 'venues already live' },
+  { value: 105000, suffix: '+', label: 'transactions handled' },
+  { value: 32000, suffix: '+', label: 'players on the platform' },
+  { value: 94, suffix: '%', label: 'growth year on year' },
+];
+
+function CountUp({ target, suffix }: { target: number; suffix: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const [val, setVal] = useState(0);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || started.current) return;
+        started.current = true;
+        const t0 = performance.now();
+        const dur = 1600;
+        const tick = (t: number) => {
+          const p = Math.min((t - t0) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setVal(Math.round(target * eased));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        // Guarantee the final value even if rAF is throttled.
+        window.setTimeout(() => setVal(target), dur + 200);
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [target]);
+
   return (
-    <section className="mx-auto max-w-5xl px-5 py-16 sm:py-24">
-      <p className="text-sm font-bold uppercase tracking-wider text-punch">
-        Dan, 35 · Trainer
-      </p>
-      <h2 className="mt-3 max-w-2xl font-display text-3xl font-extrabold sm:text-4xl">
-        For the gyms. For the trainers.
-        <span className="text-gold"> For the ones who show up.</span>
-      </h2>
+    <p ref={ref} className="font-display text-4xl font-extrabold text-white sm:text-5xl">
+      {val.toLocaleString('en-US')}
+      <span className="text-punch">{suffix}</span>
+    </p>
+  );
+}
+
+export function TrustNumbers() {
+  return (
+    <section className="bg-ink-950 py-16">
+      <div className="mx-auto max-w-5xl px-5 text-center">
+        <p className="mb-10 text-xs font-extrabold uppercase tracking-[0.2em] text-white/50">
+          The platform behind the campaign
+        </p>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-5">
+          {NUMBERS.map((n) => (
+            <div key={n.label}>
+              <CountUp target={n.value} suffix={n.suffix} />
+              <p className="mt-2 text-xs font-bold uppercase tracking-wider text-white/50">
+                {n.label}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-12 font-display text-xl font-extrabold text-white/70 sm:text-2xl">
+          One search. One tap.{' '}
+          <span className="text-punch">One button between customers and your gym.</span>
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- The film — moved from the hero to below the numbers ---------- */
+
+export function FilmSection() {
+  return (
+    <section className="mx-auto max-w-5xl px-5 pt-16 sm:pt-24">
       <ScrollVideo
-        src="/assets/brand/dan-trainer.mp4"
+        src="/assets/brand/hype-hero.mp4"
         autoSound
-        className="mt-8 aspect-video shadow-2xl shadow-black/50"
+        className="aspect-video shadow-2xl shadow-ink-950/20 ring-1 ring-ink-950/5"
       />
-      <p className="mt-4 text-center text-sm text-white/40">
-        Scroll — it plays, sound on. Scroll past — sound off.
+      <p className="mt-4 text-center text-sm font-semibold text-ink-600">
+        This is MySportia — sound comes on as you scroll to it.
       </p>
     </section>
   );
 }
 
-/* ---------- The player flow: Search → Book → Pay → Train ---------- */
+/* ---------- Product: MySportia & VMS ---------- */
+
+export function ProductSection() {
+  return (
+    <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
+      <div className="grid items-center gap-10 lg:grid-cols-2">
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-punch">
+            MySportia &amp; VMS
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Everything your customers need,
+            <span className="text-punch"> at their fingertips.</span>
+          </h2>
+          <p className="mt-4 text-lg text-ink-600">
+            One platform that runs your entire gym — connected directly to the
+            customers the marketplace sends you.
+          </p>
+          <ul className="mt-6 space-y-3">
+            {[
+              'They discover your gym, book a class, and pay — from their phone',
+              'You see every booking, member, and payment in one dashboard',
+              'Classes, privates, passes, and memberships — all sellable online',
+              'Card & Thai QR payments handled automatically',
+            ].map((li) => (
+              <li key={li} className="flex items-start gap-3 text-ink-950/85">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-mint" />
+                {li}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {[
+              { icon: CalendarDays, label: 'Calendar & pricing' },
+              { icon: Users, label: 'Members & subscriptions' },
+              { icon: CreditCard, label: 'Real-time management' },
+              { icon: Smartphone, label: 'Manage on your device' },
+            ].map((c) => (
+              <span
+                key={c.label}
+                className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-sm font-bold text-ink-950 shadow-sm ring-1 ring-ink-950/5"
+              >
+                <c.icon className="h-4 w-4 text-punch" />
+                {c.label}
+              </span>
+            ))}
+          </div>
+        </div>
+        <img
+          src="/assets/brand/product-devices.png"
+          alt="MySportia venue system on laptop, tablet and phone"
+          className="w-full"
+          loading="lazy"
+        />
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Screens, in function — dark band, press screen screen screen ---------- */
+
+const SCREENS = [
+  { src: '/assets/brand/screen-1.png', label: 'Search venues on the map' },
+  { src: '/assets/brand/screen-2.png', label: 'Venue profile & booking' },
+  { src: '/assets/brand/screen-3.png', label: 'Classes & schedules' },
+  { src: '/assets/brand/screen-4.png', label: 'Instant checkout' },
+  { src: '/assets/brand/screen-5.png', label: 'Members & subscriptions' },
+  { src: '/assets/brand/screen-6.png', label: 'Your back office' },
+];
+
+export function ScreensShowcase() {
+  const [active, setActive] = useState(0);
+  return (
+    <section className="bg-ink-950 py-16 sm:py-24">
+      <div className="mx-auto max-w-5xl px-5">
+        <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          See it <span className="text-punch">in function.</span>
+        </h2>
+        <p className="mt-2 text-white/60">Tap through the screens — this is the live product.</p>
+
+        <button
+          onClick={() => setActive((active + 1) % SCREENS.length)}
+          className="mt-8 block w-full overflow-hidden rounded-3xl bg-white shadow-2xl shadow-black/40 ring-1 ring-white/10 transition-transform active:scale-[0.99]"
+          aria-label="Next screen"
+        >
+          <img
+            key={active}
+            src={SCREENS[active].src}
+            alt={SCREENS[active].label}
+            className="w-full animate-fade-up"
+          />
+        </button>
+
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+          {SCREENS.map((s, i) => (
+            <button
+              key={s.src}
+              onClick={() => setActive(i)}
+              className={`rounded-full px-3.5 py-2 text-xs font-extrabold transition-colors ${
+                i === active
+                  ? 'bg-punch text-white'
+                  : 'bg-white/10 text-white/70 hover:bg-white/20'
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Marketplace: three sides + player flow ---------- */
+
+const SIDES = [
+  {
+    name: 'Players',
+    color: '#FF3D7E',
+    text: 'Locals and travelers looking for Muay Thai — they search, book, and pay on MySportia.',
+  },
+  {
+    name: 'Venues',
+    color: '#16C25C',
+    text: 'Your gym, listed and bookable — with a complete free system to run everything behind it.',
+  },
+  {
+    name: 'Trainers',
+    color: '#FFCB1F',
+    text: 'Your krus and coaches, visible on your profile — privates and classes filled automatically.',
+  },
+];
 
 const FLOW = [
   {
@@ -68,105 +269,26 @@ export function PlayerFlow() {
   return (
     <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {FLOW.map((f, i) => (
-        <div key={f.title} className="rounded-2xl border border-white/10 bg-ink-800 p-5">
+        <div key={f.title} className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-ink-950/5">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15">
-              <f.icon className="h-5 w-5 text-gold" />
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-punch/10">
+              <f.icon className="h-5 w-5 text-punch" />
             </span>
             <span className="font-display text-lg font-extrabold">
-              <span className="mr-1.5 text-white/30">{i + 1}</span>
+              <span className="mr-1.5 text-ink-950/30">{i + 1}</span>
               {f.title}
             </span>
           </div>
-          <p className="mt-3 text-sm text-white/60">{f.text}</p>
+          <p className="mt-3 text-sm text-ink-600">{f.text}</p>
         </div>
       ))}
     </div>
   );
 }
 
-/* ---------- Product: MySportia & VMS ---------- */
-
-export function ProductSection() {
-  return (
-    <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
-      <div className="grid items-center gap-10 lg:grid-cols-2">
-        <div>
-          <p className="text-sm font-bold uppercase tracking-wider text-punch">
-            MySportia &amp; VMS
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
-            Everything your customers need,
-            <span className="text-gold"> at their fingertips.</span>
-          </h2>
-          <p className="mt-4 text-lg text-white/70">
-            One platform that runs your entire gym — connected directly to the
-            customers the marketplace sends you.
-          </p>
-          <ul className="mt-6 space-y-3">
-            {[
-              'They discover your gym, book a class, and pay — from their phone',
-              'You see every booking, member, and payment in one dashboard',
-              'Classes, privates, passes, and memberships — all sellable online',
-              'Card & Thai QR payments handled automatically',
-            ].map((li) => (
-              <li key={li} className="flex items-start gap-3 text-white/85">
-                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#16C25C]" />
-                {li}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {[
-              { icon: CalendarDays, label: 'Calendar & pricing' },
-              { icon: Users, label: 'Members & subscriptions' },
-              { icon: CreditCard, label: 'Real-time management' },
-              { icon: Smartphone, label: 'Manage on your device' },
-            ].map((c) => (
-              <span
-                key={c.label}
-                className="flex items-center gap-2 rounded-full border border-white/15 px-3.5 py-2 text-sm font-semibold text-white/80"
-              >
-                <c.icon className="h-4 w-4 text-gold" />
-                {c.label}
-              </span>
-            ))}
-          </div>
-        </div>
-        <img
-          src="/assets/brand/product-devices.png"
-          alt="MySportia venue system on laptop, tablet and phone"
-          className="w-full"
-          loading="lazy"
-        />
-      </div>
-    </section>
-  );
-}
-
-/* ---------- Marketplace: three sides ---------- */
-
-const SIDES = [
-  {
-    name: 'Players',
-    color: '#ED3163',
-    text: 'Locals and travelers looking for Muay Thai — they search, book, and pay on MySportia.',
-  },
-  {
-    name: 'Venues',
-    color: '#16C25C',
-    text: 'Your gym, listed and bookable — with a complete free system to run everything behind it.',
-  },
-  {
-    name: 'Trainers',
-    color: '#FBBB17',
-    text: 'Your krus and coaches, visible on your profile — privates and classes filled automatically.',
-  },
-];
-
 export function MarketplaceSection() {
   return (
-    <section className="border-y border-white/10 bg-ink-900 py-16 sm:py-24">
+    <section className="bg-[#FFEDE6]/60 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-5">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <img
@@ -176,36 +298,35 @@ export function MarketplaceSection() {
             loading="lazy"
           />
           <div className="order-1 lg:order-2">
-            <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
+            <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
               One marketplace.
               <br />
-              <span className="text-gold">Three sides, working for you.</span>
+              <span className="text-punch">Three sides, working for you.</span>
             </h2>
             <div className="mt-8 space-y-4">
               {SIDES.map((s) => (
-                <div key={s.name} className="flex items-start gap-4 rounded-2xl border border-white/10 bg-ink-800 p-4">
+                <div key={s.name} className="flex items-start gap-4 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-ink-950/5">
                   <span
-                    className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-display text-sm font-extrabold text-ink-950"
+                    className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-display text-sm font-extrabold text-white"
                     style={{ background: s.color }}
                   >
                     {s.name[0]}
                   </span>
                   <div>
-                    <p className="font-display font-bold">{s.name}</p>
-                    <p className="mt-0.5 text-sm text-white/60">{s.text}</p>
+                    <p className="font-display font-extrabold">{s.name}</p>
+                    <p className="mt-0.5 text-sm text-ink-600">{s.text}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <p className="mt-6 text-sm text-white/40">
+            <p className="mt-6 text-sm font-semibold text-ink-600">
               The brand is all sports &amp; activities — Muay Thai is where the campaign begins.
             </p>
           </div>
         </div>
 
-        {/* How a customer reaches your gym — old-site Search→Book→Pay→Play flow */}
         <div className="mt-16">
-          <h3 className="font-display text-2xl font-bold">
+          <h3 className="font-display text-2xl font-extrabold tracking-tight">
             How a customer reaches your gym
           </h3>
           <PlayerFlow />
@@ -215,38 +336,27 @@ export function MarketplaceSection() {
   );
 }
 
-/* ---------- Thailand ---------- */
+/* ---------- Dan: the cinematic trainer film — dark band ---------- */
 
-const TH_STATS = [
-  { v: '400,000', l: 'football pitches' },
-  { v: '40,000', l: 'sports centres' },
-  { v: '22,150', l: 'personal trainers' },
-  { v: '33,098', l: 'schools in Thailand' },
-];
-
-export function ThailandSection() {
+export function DanSection() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
-      <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-ink-800 to-ink-900 p-8 sm:p-12">
-        <p className="text-sm font-bold uppercase tracking-wider text-[#3ddc82]">
-          🇹🇭 The bigger picture
+    <section className="bg-ink-950 py-16 sm:py-24">
+      <div className="mx-auto max-w-5xl px-5">
+        <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-punch">
+          Dan, 35 · Trainer
         </p>
-        <h2 className="mt-3 max-w-2xl font-display text-3xl font-extrabold sm:text-4xl">
-          Making Thailand a global
-          <span className="text-gold"> sports participation hub.</span>
+        <h2 className="mt-3 max-w-2xl font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          For the gyms. For the trainers.
+          <span className="text-punch"> For the ones who show up.</span>
         </h2>
-        <p className="mt-4 max-w-2xl text-white/70">
-          Thailand's sports market is enormous — and Muay Thai is its global icon.
-          MySportia connects it all in one place, starting with your gym.
+        <ScrollVideo
+          src="/assets/brand/dan-trainer.mp4"
+          autoSound
+          className="mt-8 aspect-video shadow-2xl shadow-black/50"
+        />
+        <p className="mt-4 text-center text-sm text-white/40">
+          Scroll — it plays, sound on. Scroll past — sound off.
         </p>
-        <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">
-          {TH_STATS.map((s) => (
-            <div key={s.l}>
-              <p className="font-display text-3xl font-extrabold text-gold sm:text-4xl">{s.v}</p>
-              <p className="mt-1 text-sm text-white/50">{s.l}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -274,17 +384,19 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="mx-auto max-w-5xl px-5 py-16 sm:py-24">
-      <h2 className="font-display text-3xl font-extrabold sm:text-4xl">How it works</h2>
+    <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
+      <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+        How it works
+      </h2>
       <div className="mt-10 grid gap-6 sm:grid-cols-3">
         {STEPS.map((s, i) => (
-          <div key={s.title} className="rounded-3xl border border-white/10 bg-ink-800 p-6">
+          <div key={s.title} className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-ink-950/5">
             <div className="mb-4 flex items-center gap-3">
-              <span className="font-display text-4xl font-extrabold text-gold/40">{i + 1}</span>
-              <s.icon className="h-7 w-7 text-gold" />
+              <span className="font-display text-4xl font-extrabold text-punch/25">{i + 1}</span>
+              <s.icon className="h-7 w-7 text-punch" />
             </div>
-            <h3 className="font-display text-xl font-bold">{s.title}</h3>
-            <p className="mt-2 text-white/60">{s.text}</p>
+            <h3 className="font-display text-xl font-extrabold">{s.title}</h3>
+            <p className="mt-2 text-ink-600">{s.text}</p>
           </div>
         ))}
       </div>
@@ -303,29 +415,29 @@ const FREE_ITEMS = [
 
 export function TheDeal() {
   return (
-    <section className="mx-auto max-w-5xl px-5 py-16 sm:py-24">
+    <section className="mx-auto max-w-6xl px-5 pb-16 sm:pb-24">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
         <div>
-          <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
-            What you get. <span className="text-gold">Free.</span>
+          <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+            What you get. <span className="text-punch">Free.</span>
           </h2>
           <ul className="mt-8 space-y-4">
             {FREE_ITEMS.map((item) => (
               <li key={item} className="flex items-start gap-3">
-                <BadgeCheck className="mt-0.5 h-6 w-6 shrink-0 text-brand-green" />
-                <span className="text-lg text-white/85">{item}</span>
+                <BadgeCheck className="mt-0.5 h-6 w-6 shrink-0 text-mint" />
+                <span className="text-lg text-ink-950/85">{item}</span>
               </li>
             ))}
           </ul>
         </div>
-        <div className="rounded-3xl border-2 border-gold/50 bg-gradient-to-br from-gold/15 to-punch/10 p-8">
-          <p className="font-display text-xl font-bold text-gold">The deal, plainly:</p>
+        <div className="rounded-3xl bg-ink-950 p-8 text-white shadow-xl shadow-ink-950/20">
+          <p className="font-display text-xl font-extrabold text-gold">The deal, plainly:</p>
           <ul className="mt-4 space-y-2 text-lg text-white/90">
             <li>· No setup fee</li>
             <li>· No monthly fee</li>
             <li>· No contract</li>
           </ul>
-          <p className="mt-6 border-t border-white/15 pt-6 text-lg font-semibold text-white">
+          <p className="mt-6 border-t border-white/15 pt-6 text-lg font-semibold">
             We take <span className="font-display text-3xl font-extrabold text-gold">5%</span> on
             online transactions only.
           </p>
@@ -338,141 +450,36 @@ export function TheDeal() {
   );
 }
 
-/* ---------- Trust numbers ---------- */
+/* ---------- Thailand ---------- */
 
-const NUMBERS = [
-  { value: 162, suffix: 'M฿', label: 'processed through the platform' },
-  { value: 34, suffix: '', label: 'venues already live' },
-  { value: 105000, suffix: '+', label: 'transactions handled' },
-  { value: 32000, suffix: '+', label: 'players on the platform' },
-  { value: 94, suffix: '%', label: 'growth year on year' },
+const TH_STATS = [
+  { v: '400,000', l: 'football pitches' },
+  { v: '40,000', l: 'sports centres' },
+  { v: '22,150', l: 'personal trainers' },
+  { v: '33,098', l: 'schools in Thailand' },
 ];
 
-/** Counts from 0 to `target` when scrolled into view (Justin: "we want to
- * animate numbers as the page loads"). */
-function CountUp({ target, suffix }: { target: number; suffix: string }) {
-  const ref = useRef<HTMLParagraphElement>(null);
-  const [val, setVal] = useState(0);
-  const started = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || started.current) return;
-        started.current = true;
-        const t0 = performance.now();
-        const dur = 1600;
-        const tick = (t: number) => {
-          const p = Math.min((t - t0) / dur, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          setVal(Math.round(target * eased));
-          if (p < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-        // Guarantee the final value even if rAF is throttled (low-power
-        // devices, background tabs).
-        window.setTimeout(() => setVal(target), dur + 200);
-      },
-      { threshold: 0.4 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [target]);
-
+export function ThailandSection() {
   return (
-    <p ref={ref} className="font-display text-3xl font-extrabold text-gold sm:text-4xl">
-      {val.toLocaleString('en-US')}
-      {suffix}
-    </p>
-  );
-}
-
-export function TrustNumbers() {
-  return (
-    <section className="border-y border-white/10 bg-ink-900 py-14">
-      <div className="mx-auto max-w-5xl px-5">
-        <p className="mb-8 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white/50">
-          <Megaphone className="h-4 w-4 text-gold" /> The platform behind the campaign
+    <section className="mx-auto max-w-6xl px-5 pb-16 sm:pb-24">
+      <div className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-ink-950/5 sm:p-12">
+        <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-mint">
+          🇹🇭 The bigger picture
         </p>
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-5">
-          {NUMBERS.map((n) => (
-            <div key={n.label}>
-              <CountUp target={n.value} suffix={n.suffix} />
-              <p className="mt-1 text-sm text-white/50">{n.label}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- The film — moved from the hero to below the numbers ---------- */
-
-export function FilmSection() {
-  return (
-    <section className="mx-auto max-w-5xl px-5 pt-16 sm:pt-24">
-      <ScrollVideo
-        src="/assets/brand/hype-hero.mp4"
-        autoSound
-        className="aspect-video shadow-2xl shadow-black/50"
-      />
-      <p className="mt-4 text-center text-sm text-white/40">
-        This is MySportia — sound comes on as you scroll to it.
-      </p>
-    </section>
-  );
-}
-
-/* ---------- Screens, in function — press screen, screen, screen ---------- */
-
-const SCREENS = [
-  { src: '/assets/brand/screen-1.png', label: 'Search venues on the map' },
-  { src: '/assets/brand/screen-2.png', label: 'Venue profile & booking' },
-  { src: '/assets/brand/screen-3.png', label: 'Classes & schedules' },
-  { src: '/assets/brand/screen-4.png', label: 'Instant checkout' },
-  { src: '/assets/brand/screen-5.png', label: 'Members & subscriptions' },
-  { src: '/assets/brand/screen-6.png', label: 'Your back office' },
-];
-
-export function ScreensShowcase() {
-  const [active, setActive] = useState(0);
-  return (
-    <section className="border-y border-white/10 bg-ink-900 py-16 sm:py-24">
-      <div className="mx-auto max-w-5xl px-5">
-        <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
-          See it <span className="text-punch">in function.</span>
+        <h2 className="mt-3 max-w-2xl font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+          Making Thailand a global
+          <span className="text-punch"> sports participation hub.</span>
         </h2>
-        <p className="mt-2 text-white/60">Tap through the screens — this is the live product.</p>
-
-        <button
-          onClick={() => setActive((active + 1) % SCREENS.length)}
-          className="mt-8 block w-full overflow-hidden rounded-3xl border border-white/10 bg-paper shadow-2xl shadow-black/40 transition-transform active:scale-[0.99]"
-          aria-label="Next screen"
-        >
-          <img
-            key={active}
-            src={SCREENS[active].src}
-            alt={SCREENS[active].label}
-            className="w-full animate-fade-up"
-          />
-        </button>
-
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-          {SCREENS.map((s, i) => (
-            <button
-              key={s.src}
-              onClick={() => setActive(i)}
-              className={`rounded-full px-3.5 py-2 text-xs font-bold transition-colors ${
-                i === active
-                  ? 'bg-punch text-white'
-                  : 'bg-white/5 text-white/60 hover:bg-white/10'
-              }`}
-            >
-              {s.label}
-            </button>
+        <p className="mt-4 max-w-2xl text-ink-600">
+          Thailand's sports market is enormous — and Muay Thai is its global icon.
+          MySportia connects it all in one place, starting with your gym.
+        </p>
+        <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">
+          {TH_STATS.map((s) => (
+            <div key={s.l}>
+              <p className="font-display text-3xl font-extrabold text-punch sm:text-4xl">{s.v}</p>
+              <p className="mt-1 text-sm font-semibold text-ink-600">{s.l}</p>
+            </div>
           ))}
         </div>
       </div>
@@ -508,23 +515,25 @@ const FAQS = [
 export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="mx-auto max-w-3xl px-5 py-16 sm:py-24">
-      <h2 className="font-display text-3xl font-extrabold sm:text-4xl">Questions, answered</h2>
-      <div className="mt-8 divide-y divide-white/10 border-y border-white/10">
+    <section className="mx-auto max-w-3xl px-5 pb-16 sm:pb-24">
+      <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+        Questions, answered
+      </h2>
+      <div className="mt-8 overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-ink-950/5">
         {FAQS.map((f, i) => (
-          <div key={f.q}>
+          <div key={f.q} className="border-b border-ink-950/5 last:border-0">
             <button
               onClick={() => setOpen(open === i ? null : i)}
-              className="flex w-full items-center justify-between gap-4 py-5 text-left"
+              className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
             >
-              <span className="font-display text-lg font-bold">{f.q}</span>
+              <span className="font-display text-lg font-extrabold">{f.q}</span>
               <ChevronDown
-                className={`h-5 w-5 shrink-0 text-gold transition-transform ${
+                className={`h-5 w-5 shrink-0 text-punch transition-transform ${
                   open === i ? 'rotate-180' : ''
                 }`}
               />
             </button>
-            {open === i && <p className="pb-5 text-white/65 animate-fade-up">{f.a}</p>}
+            {open === i && <p className="px-6 pb-5 text-ink-600 animate-fade-up">{f.a}</p>}
           </div>
         ))}
       </div>
@@ -532,7 +541,7 @@ export function FAQ() {
   );
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer — ink band, v3 style ---------- */
 
 const SOCIALS = [
   { label: 'FB @mysportia', href: 'https://facebook.com/mysportia' },
@@ -543,36 +552,50 @@ const SOCIALS = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-ink-900">
-      <div className="mx-auto max-w-5xl px-5 py-12">
-        <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+    <footer className="bg-ink-950 text-white">
+      <div className="mx-auto max-w-6xl px-5 py-14">
+        <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
           <div className="max-w-sm">
-            <img src="/assets/logo-mysportia.svg" alt="MySportia" className="h-6 brightness-0 invert" />
-            <p className="mt-3 text-sm text-white/50">
-              Thailand's sports & activities marketplace — every sport, every venue.
+            <img src="/assets/brand/logo-on-black.png" alt="MySportia" className="h-7" />
+            <p className="mt-4 text-sm text-white/60">
+              Thailand's sports &amp; activities marketplace — every sport, every venue.
               Muay Thai is where the campaign begins.
             </p>
-            <p className="mt-3 text-xs text-white/30">
-              Venue back office powered by Exsportia.
-            </p>
+            <p className="mt-3 text-xs text-white/35">Venue back office powered by Exsportia.</p>
           </div>
-          <div className="flex flex-col gap-2">
-            {SOCIALS.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm font-semibold text-white/60 hover:text-gold"
-              >
-                {s.label}
-              </a>
-            ))}
+          <div>
+            <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.2em] text-white/40">
+              Owners
+            </p>
+            <div className="flex flex-col gap-2 text-sm font-semibold text-white/70">
+              <span>Claim your gym →</span>
+              <span>Pricing (5% flat)</span>
+              <span>Talk to a human</span>
+            </div>
+          </div>
+          <div>
+            <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.2em] text-white/40">
+              Social
+            </p>
+            <div className="flex flex-col gap-2">
+              {SOCIALS.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-semibold text-white/70 hover:text-punch"
+                >
+                  {s.label}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
-        <p className="mt-10 text-xs text-white/25">
-          © {new Date().getFullYear()} MySportia · mysportia.com
-        </p>
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/35 sm:flex-row sm:justify-between">
+          <span>© {new Date().getFullYear()} MySportia · mysportia.com</span>
+          <span>Running across 34 venues</span>
+        </div>
       </div>
     </footer>
   );
