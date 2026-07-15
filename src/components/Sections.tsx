@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   BadgeCheck,
   CalendarDays,
@@ -29,10 +29,11 @@ export function DanSection() {
       </h2>
       <ScrollVideo
         src="/assets/brand/dan-trainer.mp4"
+        autoSound
         className="mt-8 aspect-video shadow-2xl shadow-black/50"
       />
       <p className="mt-4 text-center text-sm text-white/40">
-        Scroll — it plays. Tap for sound.
+        Scroll — it plays, sound on. Scroll past — sound off.
       </p>
     </section>
   );
@@ -340,12 +341,53 @@ export function TheDeal() {
 /* ---------- Trust numbers ---------- */
 
 const NUMBERS = [
-  { value: '162M฿', label: 'processed through the platform' },
-  { value: '34', label: 'venues already live' },
-  { value: '105,000+', label: 'transactions handled' },
-  { value: '32,000+', label: 'players on the platform' },
-  { value: '94%', label: 'growth year on year' },
+  { value: 162, suffix: 'M฿', label: 'processed through the platform' },
+  { value: 34, suffix: '', label: 'venues already live' },
+  { value: 105000, suffix: '+', label: 'transactions handled' },
+  { value: 32000, suffix: '+', label: 'players on the platform' },
+  { value: 94, suffix: '%', label: 'growth year on year' },
 ];
+
+/** Counts from 0 to `target` when scrolled into view (Justin: "we want to
+ * animate numbers as the page loads"). */
+function CountUp({ target, suffix }: { target: number; suffix: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const [val, setVal] = useState(0);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || started.current) return;
+        started.current = true;
+        const t0 = performance.now();
+        const dur = 1600;
+        const tick = (t: number) => {
+          const p = Math.min((t - t0) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          setVal(Math.round(target * eased));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        // Guarantee the final value even if rAF is throttled (low-power
+        // devices, background tabs).
+        window.setTimeout(() => setVal(target), dur + 200);
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [target]);
+
+  return (
+    <p ref={ref} className="font-display text-3xl font-extrabold text-gold sm:text-4xl">
+      {val.toLocaleString('en-US')}
+      {suffix}
+    </p>
+  );
+}
 
 export function TrustNumbers() {
   return (
@@ -357,9 +399,80 @@ export function TrustNumbers() {
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-5">
           {NUMBERS.map((n) => (
             <div key={n.label}>
-              <p className="font-display text-3xl font-extrabold text-gold sm:text-4xl">{n.value}</p>
+              <CountUp target={n.value} suffix={n.suffix} />
               <p className="mt-1 text-sm text-white/50">{n.label}</p>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- The film — moved from the hero to below the numbers ---------- */
+
+export function FilmSection() {
+  return (
+    <section className="mx-auto max-w-5xl px-5 pt-16 sm:pt-24">
+      <ScrollVideo
+        src="/assets/brand/hype-hero.mp4"
+        autoSound
+        className="aspect-video shadow-2xl shadow-black/50"
+      />
+      <p className="mt-4 text-center text-sm text-white/40">
+        This is MySportia — sound comes on as you scroll to it.
+      </p>
+    </section>
+  );
+}
+
+/* ---------- Screens, in function — press screen, screen, screen ---------- */
+
+const SCREENS = [
+  { src: '/assets/brand/screen-1.png', label: 'Search venues on the map' },
+  { src: '/assets/brand/screen-2.png', label: 'Venue profile & booking' },
+  { src: '/assets/brand/screen-3.png', label: 'Classes & schedules' },
+  { src: '/assets/brand/screen-4.png', label: 'Instant checkout' },
+  { src: '/assets/brand/screen-5.png', label: 'Members & subscriptions' },
+  { src: '/assets/brand/screen-6.png', label: 'Your back office' },
+];
+
+export function ScreensShowcase() {
+  const [active, setActive] = useState(0);
+  return (
+    <section className="border-y border-white/10 bg-ink-900 py-16 sm:py-24">
+      <div className="mx-auto max-w-5xl px-5">
+        <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
+          See it <span className="text-punch">in function.</span>
+        </h2>
+        <p className="mt-2 text-white/60">Tap through the screens — this is the live product.</p>
+
+        <button
+          onClick={() => setActive((active + 1) % SCREENS.length)}
+          className="mt-8 block w-full overflow-hidden rounded-3xl border border-white/10 bg-paper shadow-2xl shadow-black/40 transition-transform active:scale-[0.99]"
+          aria-label="Next screen"
+        >
+          <img
+            key={active}
+            src={SCREENS[active].src}
+            alt={SCREENS[active].label}
+            className="w-full animate-fade-up"
+          />
+        </button>
+
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+          {SCREENS.map((s, i) => (
+            <button
+              key={s.src}
+              onClick={() => setActive(i)}
+              className={`rounded-full px-3.5 py-2 text-xs font-bold transition-colors ${
+                i === active
+                  ? 'bg-punch text-white'
+                  : 'bg-white/5 text-white/60 hover:bg-white/10'
+              }`}
+            >
+              {s.label}
+            </button>
           ))}
         </div>
       </div>

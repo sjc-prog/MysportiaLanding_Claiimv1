@@ -7,10 +7,12 @@ import TalkToUs from './components/TalkToUs';
 import {
   DanSection,
   FAQ,
+  FilmSection,
   Footer,
   HowItWorks,
   MarketplaceSection,
   ProductSection,
+  ScreensShowcase,
   TheDeal,
   ThailandSection,
   TrustNumbers,
@@ -82,9 +84,11 @@ export default function App() {
         }}
       />
       <TrustNumbers />
-      <DanSection />
+      <FilmSection />
       <ProductSection />
+      <ScreensShowcase />
       <MarketplaceSection />
+      <DanSection />
       <HowItWorks />
       <TheDeal />
       <ThailandSection />

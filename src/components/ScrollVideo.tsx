@@ -1,20 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 
+// Browsers only allow audible playback after the visitor's first real
+// gesture (tap/click/keypress) anywhere on the page. Track that globally so
+// scroll-in can legally enable sound.
+let userHasInteracted = false;
+if (typeof window !== 'undefined') {
+  const mark = () => {
+    userHasInteracted = true;
+    window.removeEventListener('pointerdown', mark);
+    window.removeEventListener('keydown', mark);
+    window.removeEventListener('touchstart', mark);
+  };
+  window.addEventListener('pointerdown', mark, { passive: true });
+  window.addEventListener('touchstart', mark, { passive: true });
+  window.addEventListener('keydown', mark);
+}
+
 /**
  * Scroll-triggered video — the old exsportia-main-website pattern
- * (Section_Video: play when the block reaches mid-viewport, pause when it
- * leaves), rebuilt on IntersectionObserver. Autoplays muted (browser policy);
- * one tap toggles sound.
+ * (play at mid-viewport, pause on leave) + Justin's rule (2026-07-15):
+ * sound ON when you scroll to it, sound OFF when you scroll past.
+ * Falls back to the manual sound button when the browser blocks audio.
  */
 export default function ScrollVideo({
   src,
   poster,
   className,
+  autoSound = false,
 }: {
   src: string;
   poster?: string;
   className?: string;
+  autoSound?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
@@ -31,16 +49,29 @@ export default function ScrollVideo({
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.intersectionRatio >= 0.5) {
-          video.play().catch(() => undefined);
+          if (autoSound && userHasInteracted) {
+            video.muted = false;
+            setMuted(false);
+          }
+          video.play().catch(() => {
+            // audible autoplay refused — retry muted
+            video.muted = true;
+            setMuted(true);
+            video.play().catch(() => undefined);
+          });
         } else {
           video.pause();
+          if (autoSound && !video.muted) {
+            video.muted = true;
+            setMuted(true);
+          }
         }
       },
       { threshold: [0, 0.5] }
     );
     io.observe(video);
     return () => io.disconnect();
-  }, []);
+  }, [autoSound]);
 
   return (
     <div className={`group relative overflow-hidden rounded-3xl ${className ?? ''}`}>
