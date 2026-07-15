@@ -3,3 +3,4 @@ dist/
 .env
 .env.local
 *.local
+public/assets/brand/product-tour.mp4

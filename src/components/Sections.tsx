@@ -8,6 +8,149 @@ import {
   Store,
 } from 'lucide-react';
 
+/* ---------- Product: MySportia & VMS ---------- */
+
+export function ProductSection() {
+  return (
+    <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
+      <div className="grid items-center gap-10 lg:grid-cols-2">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-wider text-punch">
+            MySportia &amp; VMS
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
+            Everything your customers need,
+            <span className="text-gold"> at their fingertips.</span>
+          </h2>
+          <p className="mt-4 text-lg text-white/70">
+            One platform that runs your entire gym — connected directly to the
+            customers the marketplace sends you.
+          </p>
+          <ul className="mt-6 space-y-3">
+            {[
+              'They discover your gym, book a class, and pay — from their phone',
+              'You see every booking, member, and payment in one dashboard',
+              'Classes, privates, passes, and memberships — all sellable online',
+              'Card & Thai QR payments handled automatically',
+            ].map((li) => (
+              <li key={li} className="flex items-start gap-3 text-white/85">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#16C25C]" />
+                {li}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <img
+          src="/assets/brand/product-devices.png"
+          alt="MySportia venue system on laptop, tablet and phone"
+          className="w-full"
+          loading="lazy"
+        />
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Marketplace: three sides ---------- */
+
+const SIDES = [
+  {
+    name: 'Players',
+    color: '#ED3163',
+    text: 'Locals and travelers looking for Muay Thai — they search, book, and pay on MySportia.',
+  },
+  {
+    name: 'Venues',
+    color: '#16C25C',
+    text: 'Your gym, listed and bookable — with a complete free system to run everything behind it.',
+  },
+  {
+    name: 'Trainers',
+    color: '#FBBB17',
+    text: 'Your krus and coaches, visible on your profile — privates and classes filled automatically.',
+  },
+];
+
+export function MarketplaceSection() {
+  return (
+    <section className="border-y border-white/10 bg-ink-900 py-16 sm:py-24">
+      <div className="mx-auto max-w-6xl px-5">
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <img
+            src="/assets/brand/x-collage.png"
+            alt="Every sport on one marketplace"
+            className="order-2 w-full lg:order-1"
+            loading="lazy"
+          />
+          <div className="order-1 lg:order-2">
+            <h2 className="font-display text-3xl font-extrabold sm:text-4xl">
+              One marketplace.
+              <br />
+              <span className="text-gold">Three sides, working for you.</span>
+            </h2>
+            <div className="mt-8 space-y-4">
+              {SIDES.map((s) => (
+                <div key={s.name} className="flex items-start gap-4 rounded-2xl border border-white/10 bg-ink-800 p-4">
+                  <span
+                    className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-display text-sm font-extrabold text-ink-950"
+                    style={{ background: s.color }}
+                  >
+                    {s.name[0]}
+                  </span>
+                  <div>
+                    <p className="font-display font-bold">{s.name}</p>
+                    <p className="mt-0.5 text-sm text-white/60">{s.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-sm text-white/40">
+              The brand is all sports &amp; activities — Muay Thai is where the campaign begins.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Thailand ---------- */
+
+const TH_STATS = [
+  { v: '400,000', l: 'football pitches' },
+  { v: '40,000', l: 'sports centres' },
+  { v: '22,150', l: 'personal trainers' },
+  { v: '33,098', l: 'schools in Thailand' },
+];
+
+export function ThailandSection() {
+  return (
+    <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
+      <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-ink-800 to-ink-900 p-8 sm:p-12">
+        <p className="text-sm font-bold uppercase tracking-wider text-[#3ddc82]">
+          🇹🇭 The bigger picture
+        </p>
+        <h2 className="mt-3 max-w-2xl font-display text-3xl font-extrabold sm:text-4xl">
+          Making Thailand a global
+          <span className="text-gold"> sports participation hub.</span>
+        </h2>
+        <p className="mt-4 max-w-2xl text-white/70">
+          Thailand's sports market is enormous — and Muay Thai is its global icon.
+          MySportia connects it all in one place, starting with your gym.
+        </p>
+        <div className="mt-10 grid grid-cols-2 gap-8 sm:grid-cols-4">
+          {TH_STATS.map((s) => (
+            <div key={s.l}>
+              <p className="font-display text-3xl font-extrabold text-gold sm:text-4xl">{s.v}</p>
+              <p className="mt-1 text-sm text-white/50">{s.l}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- How it works ---------- */
 
 const STEPS = [

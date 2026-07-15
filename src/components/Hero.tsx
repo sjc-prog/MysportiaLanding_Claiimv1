@@ -1,4 +1,4 @@
-import { Flame } from 'lucide-react';
+import { CheckCircle2, Play } from 'lucide-react';
 import VenueSearch from './VenueSearch';
 import { Venue } from '../data/venues';
 
@@ -6,57 +6,94 @@ interface Props {
   onVenueSelect: (venue: Venue | null) => void;
 }
 
+/**
+ * Home v1 (Justin's notes 2026-07-14): correct logo top-left, navy brand
+ * backdrop instead of the photo, "confirm your gym" headline set, claim
+ * search left, product video right. Assets from Branding/Assets +
+ * "Email images and assets" (logo-on-black, dots, product-tour video).
+ */
 export default function Hero({ onVenueSelect }: Props) {
   return (
-    <header className="relative overflow-hidden">
-      {/* Cinematic backdrop: fighter image, dark wash, gold edge light */}
+    <header className="relative overflow-hidden bg-[#0A0F24]">
+      {/* Brand backdrop: navy, dot texture, brand-color glows */}
       <div className="absolute inset-0">
         <img
-          src="/assets/hero-fighter.png"
+          src="/assets/brand/dots.png"
           alt=""
-          className="h-full w-full object-cover object-top opacity-40"
+          className="absolute left-0 top-0 w-[640px] max-w-none opacity-[0.22]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink-950/80 via-ink-950/70 to-ink-950" />
-        <div className="absolute -left-32 top-1/3 h-96 w-96 rounded-full bg-punch/20 blur-[120px]" />
-        <div className="absolute -right-32 top-1/4 h-96 w-96 rounded-full bg-gold/15 blur-[120px]" />
+        <img
+          src="/assets/brand/dots.png"
+          alt=""
+          className="absolute -right-24 bottom-0 w-[520px] max-w-none rotate-180 opacity-[0.15]"
+        />
+        <div className="absolute -left-40 top-1/4 h-[420px] w-[420px] rounded-full bg-punch/25 blur-[130px]" />
+        <div className="absolute right-0 top-0 h-[380px] w-[380px] rounded-full bg-[#16C25C]/15 blur-[130px]" />
+        <div className="absolute bottom-0 left-1/3 h-[300px] w-[300px] rounded-full bg-[#FBBB17]/10 blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[92svh] max-w-5xl flex-col px-5 pb-16 pt-6">
-        {/* Top bar */}
+      <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-5">
+        {/* Top bar — the correct lockup */}
         <div className="flex items-center justify-between">
-          <img src="/assets/logo-mysportia.svg" alt="MySportia" className="h-7 brightness-0 invert" />
-          <span className="hidden text-sm font-medium text-white/60 sm:block">
+          <img src="/assets/brand/logo-on-black.png" alt="MySportia" className="h-8 sm:h-9" />
+          <span className="hidden text-sm font-medium text-white/60 md:block">
             Thailand's sports & activities marketplace
           </span>
         </div>
 
-        {/* Campaign badge + headline */}
-        <div className="mt-auto flex flex-col items-start gap-6 pt-20">
-          <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-sm font-bold uppercase tracking-wider text-gold">
-            <Flame className="h-4 w-4" />
-            The campaign is launching
-          </span>
+        <div className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-2">
+          {/* Left: the message + the claim search */}
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#16C25C]/40 bg-[#16C25C]/10 px-4 py-1.5 text-sm font-bold text-[#3ddc82]">
+              <CheckCircle2 className="h-4 w-4" />
+              400+ Muay Thai gyms already listed — make sure yours is one of them
+            </span>
 
-          <h1 className="font-display text-4xl font-extrabold leading-[1.05] sm:text-6xl">
-            Muay Thai is going global.
-            <br />
-            <span className="text-gold">Is your gym on the map?</span>
-          </h1>
+            <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] sm:text-5xl xl:text-6xl">
+              Confirm your
+              <br />
+              <span className="text-gold">Muay Thai gym.</span>
+            </h1>
 
-          <p className="max-w-xl text-lg text-white/80">
-            MySportia drives customers to Muay Thai gyms across Thailand — booking,
-            payments, and a complete free system to run your gym.
-          </p>
-
-          {/* The claim moment */}
-          <div className="w-full max-w-xl">
-            <p className="mb-3 font-semibold text-white/90">
-              Claim your venue — free. Start typing:
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">
+              Your Muay Thai gym, accessible to millions of global customers.
+              <span className="text-white/60">
+                {' '}
+                MySportia drives customers to Muay Thai gyms and training centres across
+                Thailand.
+              </span>
             </p>
-            <VenueSearch onSelect={onVenueSelect} />
-            <p className="mt-3 text-sm text-white/50">
-              380+ Muay Thai gyms are already listed. Yours is probably one of them.
-            </p>
+
+            <div className="mt-8">
+              <p className="mb-3 font-semibold text-white/90">
+                Claim your venue now — find your gym:
+              </p>
+              <VenueSearch onSelect={onVenueSelect} />
+              <p className="mt-3 text-sm text-white/50">
+                Free to claim · takes 2 minutes on your phone
+              </p>
+            </div>
+          </div>
+
+          {/* Right: the product video */}
+          <div className="relative">
+            <div className="overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/50">
+              <video
+                className="aspect-[4/3] w-full bg-ink-800 object-cover"
+                poster="/assets/brand/video-poster.png"
+                autoPlay
+                muted
+                loop
+                playsInline
+                src="/assets/brand/product-tour.mp4"
+              />
+            </div>
+            <div className="pointer-events-none absolute inset-x-0 -bottom-3 flex justify-center">
+              <span className="flex items-center gap-2 rounded-full bg-ink-950/90 px-4 py-2 text-xs font-bold text-white/80 backdrop-blur">
+                <Play className="h-3.5 w-3.5 text-gold" />
+                See how gyms run on MySportia
+              </span>
+            </div>
           </div>
         </div>
       </div>

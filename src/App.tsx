@@ -4,7 +4,16 @@ import Funnel, { FunnelData } from './components/Funnel';
 import ProfilePreview from './components/ProfilePreview';
 import DashboardPreview from './components/DashboardPreview';
 import TalkToUs from './components/TalkToUs';
-import { FAQ, Footer, HowItWorks, TheDeal, TrustNumbers } from './components/Sections';
+import {
+  FAQ,
+  Footer,
+  HowItWorks,
+  MarketplaceSection,
+  ProductSection,
+  TheDeal,
+  ThailandSection,
+  TrustNumbers,
+} from './components/Sections';
 import { Venue } from './data/venues';
 
 type View =
@@ -72,8 +81,11 @@ export default function App() {
         }}
       />
       <TrustNumbers />
+      <ProductSection />
+      <MarketplaceSection />
       <HowItWorks />
       <TheDeal />
+      <ThailandSection />
       <FAQ />
       <Footer />
       <TalkToUs />
