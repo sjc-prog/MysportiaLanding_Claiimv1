@@ -1,12 +1,88 @@
 import { useState } from 'react';
 import {
   BadgeCheck,
+  CalendarDays,
   ChevronDown,
   CreditCard,
   Megaphone,
+  QrCode,
   Rocket,
+  ScanLine,
+  Search,
+  Smartphone,
   Store,
+  Users,
 } from 'lucide-react';
+import ScrollVideo from './ScrollVideo';
+
+/* ---------- Dan: the cinematic trainer film (old-site scroll-video pattern) ---------- */
+
+export function DanSection() {
+  return (
+    <section className="mx-auto max-w-5xl px-5 py-16 sm:py-24">
+      <p className="text-sm font-bold uppercase tracking-wider text-punch">
+        Dan, 35 · Trainer
+      </p>
+      <h2 className="mt-3 max-w-2xl font-display text-3xl font-extrabold sm:text-4xl">
+        For the gyms. For the trainers.
+        <span className="text-gold"> For the ones who show up.</span>
+      </h2>
+      <ScrollVideo
+        src="/assets/brand/dan-trainer.mp4"
+        className="mt-8 aspect-video shadow-2xl shadow-black/50"
+      />
+      <p className="mt-4 text-center text-sm text-white/40">
+        Scroll — it plays. Tap for sound.
+      </p>
+    </section>
+  );
+}
+
+/* ---------- The player flow: Search → Book → Pay → Train ---------- */
+
+const FLOW = [
+  {
+    icon: Search,
+    title: 'Search',
+    text: 'Customers search Muay Thai gyms, classes and trainers in your area — and beyond.',
+  },
+  {
+    icon: CalendarDays,
+    title: 'Book',
+    text: 'They book instantly — your real schedule, your real availability.',
+  },
+  {
+    icon: QrCode,
+    title: 'Pay',
+    text: 'They pay by card or Thai QR before they arrive. It lands in your system.',
+  },
+  {
+    icon: ScanLine,
+    title: 'Train',
+    text: 'They walk in, check in, and train. You just see the ring fill up.',
+  },
+];
+
+export function PlayerFlow() {
+  return (
+    <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {FLOW.map((f, i) => (
+        <div key={f.title} className="rounded-2xl border border-white/10 bg-ink-800 p-5">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gold/15">
+              <f.icon className="h-5 w-5 text-gold" />
+            </span>
+            <span className="font-display text-lg font-extrabold">
+              <span className="mr-1.5 text-white/30">{i + 1}</span>
+              {f.title}
+            </span>
+          </div>
+          <p className="mt-3 text-sm text-white/60">{f.text}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 /* ---------- Product: MySportia & VMS ---------- */
 
@@ -39,6 +115,22 @@ export function ProductSection() {
               </li>
             ))}
           </ul>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {[
+              { icon: CalendarDays, label: 'Calendar & pricing' },
+              { icon: Users, label: 'Members & subscriptions' },
+              { icon: CreditCard, label: 'Real-time management' },
+              { icon: Smartphone, label: 'Manage on your device' },
+            ].map((c) => (
+              <span
+                key={c.label}
+                className="flex items-center gap-2 rounded-full border border-white/15 px-3.5 py-2 text-sm font-semibold text-white/80"
+              >
+                <c.icon className="h-4 w-4 text-gold" />
+                {c.label}
+              </span>
+            ))}
+          </div>
         </div>
         <img
           src="/assets/brand/product-devices.png"
@@ -108,6 +200,14 @@ export function MarketplaceSection() {
               The brand is all sports &amp; activities — Muay Thai is where the campaign begins.
             </p>
           </div>
+        </div>
+
+        {/* How a customer reaches your gym — old-site Search→Book→Pay→Play flow */}
+        <div className="mt-16">
+          <h3 className="font-display text-2xl font-bold">
+            How a customer reaches your gym
+          </h3>
+          <PlayerFlow />
         </div>
       </div>
     </section>

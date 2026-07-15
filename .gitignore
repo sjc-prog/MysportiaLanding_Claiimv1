@@ -4,3 +4,5 @@ dist/
 .env.local
 *.local
 public/assets/brand/product-tour.mp4
+tmp-review/
+public/assets/brand/dan-trainer.mp4

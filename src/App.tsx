@@ -5,6 +5,7 @@ import ProfilePreview from './components/ProfilePreview';
 import DashboardPreview from './components/DashboardPreview';
 import TalkToUs from './components/TalkToUs';
 import {
+  DanSection,
   FAQ,
   Footer,
   HowItWorks,
@@ -81,6 +82,7 @@ export default function App() {
         }}
       />
       <TrustNumbers />
+      <DanSection />
       <ProductSection />
       <MarketplaceSection />
       <HowItWorks />
