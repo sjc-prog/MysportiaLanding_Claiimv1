@@ -13,6 +13,7 @@ import {
   Users,
 } from 'lucide-react';
 import ScrollVideo from './ScrollVideo';
+import CustomerPhone from './CustomerPhone';
 
 /* ————— Design system (mysportia-marketplace-web-v3): light sections on
    paper/peach washes, dark ink bands for proof moments, white cards,
@@ -109,61 +110,108 @@ export function FilmSection() {
   );
 }
 
-/* ---------- Product: MySportia & VMS ---------- */
+/* ---------- MySportia, for your customers (end-customer experience ONLY) ---------- */
 
-export function ProductSection() {
+const CUSTOMER_CAN = [
+  'Book classes, privates, and sessions at your venue — instantly',
+  'Buy subscriptions, class passes, and memberships online',
+  'See everything about your venue: times, classes, trainers, prices',
+  'Manage their own bookings — reschedule or cancel, with cancellation protection',
+  'Pay how they like — card, Apple Pay, Thai QR — and see all payment history',
+];
+
+export function CustomerSection() {
   return (
     <section className="mx-auto max-w-6xl px-5 py-16 sm:py-24">
-      <div className="grid items-center gap-10 lg:grid-cols-2">
+      <div className="grid items-center gap-12 lg:grid-cols-2">
         <div>
           <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-punch">
-            MySportia &amp; VMS
+            MySportia · for your customers
           </p>
           <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
-            Everything your customers need,
+            Everything your customer needs,
             <span className="text-punch"> at their fingertips.</span>
           </h2>
           <p className="mt-4 text-lg text-ink-600">
-            One platform that runs your entire gym — connected directly to the
-            customers the marketplace sends you.
+            Your customers do everything themselves — without disturbing you.
           </p>
-          <ul className="mt-6 space-y-3">
-            {[
-              'They discover your gym, book a class, and pay — from their phone',
-              'You see every booking, member, and payment in one dashboard',
-              'Classes, privates, passes, and memberships — all sellable online',
-              'Card & Thai QR payments handled automatically',
-            ].map((li) => (
+          <ul className="mt-6 space-y-3.5">
+            {CUSTOMER_CAN.map((li) => (
               <li key={li} className="flex items-start gap-3 text-ink-950/85">
-                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-mint" />
+                <BadgeCheck className="mt-0.5 h-5 w-5 shrink-0 text-mint" />
                 {li}
               </li>
             ))}
           </ul>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {[
-              { icon: CalendarDays, label: 'Calendar & pricing' },
-              { icon: Users, label: 'Members & subscriptions' },
-              { icon: CreditCard, label: 'Real-time management' },
-              { icon: Smartphone, label: 'Manage on your device' },
-            ].map((c) => (
-              <span
-                key={c.label}
-                className="flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-sm font-bold text-ink-950 shadow-sm ring-1 ring-ink-950/5"
-              >
-                <c.icon className="h-4 w-4 text-punch" />
-                {c.label}
-              </span>
-            ))}
-          </div>
+          <p className="mt-6 rounded-2xl bg-[#FFF6DB] px-4 py-3 text-sm font-bold text-[#8a6200]">
+            No more LINE messages at midnight — bookings, changes, and payments
+            happen on their phone, and land in your system.
+          </p>
         </div>
-        <img
-          src="/assets/brand/product-devices.png"
-          alt="MySportia venue system on laptop, tablet and phone"
-          className="w-full"
-          loading="lazy"
-        />
+        <CustomerPhone />
       </div>
+    </section>
+  );
+}
+
+/* ---------- Exsportia VMS — the venue back office ---------- */
+
+const VMS_FEATURES = [
+  { icon: CalendarDays, label: 'Real-time multi-calendar', text: 'Every area, class, and trainer on one live calendar.' },
+  { icon: CreditCard, label: 'All payment methods', text: 'Card, Apple Pay, Thai QR — one flat 5% on online sales.' },
+  { icon: Users, label: 'Members & subscriptions', text: 'Passes, memberships, and renewals on autopilot.' },
+  { icon: QrCode, label: 'Automated QR check-in', text: 'Customers scan in at the door — no front-desk queue.' },
+  { icon: ScanLine, label: 'Statements & invoices', text: 'Automated invoicing and monthly statements.' },
+  { icon: Smartphone, label: 'Manage on any device', text: 'The whole back office, on your phone.' },
+  { icon: Search, label: 'Analytics & reports', text: 'See what sells, who returns, and what to grow.' },
+  { icon: Rocket, label: 'Broadcast messages', text: 'Tell all your members at once — schedule changes, promos.' },
+  { icon: BadgeCheck, label: 'Cancellation protection', text: 'Late-cancel and no-show rules that protect your revenue.' },
+];
+
+export function VmsSection() {
+  return (
+    <section className="mx-auto max-w-6xl px-5 pb-16 sm:pb-24">
+      {/* Big lockup */}
+      <div className="flex flex-col items-center text-center">
+        <div className="flex items-center gap-3">
+          <img src="/assets/brand/exsportia-icon.png" alt="" className="h-12 w-12 sm:h-14 sm:w-14" />
+          <span className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
+            exsportia
+            <span className="ml-2 align-super text-sm font-extrabold tracking-[0.2em] text-mint">
+              VMS
+            </span>
+          </span>
+        </div>
+        <h2 className="mt-5 max-w-2xl font-display text-2xl font-extrabold tracking-tight sm:text-3xl">
+          Your free back office —
+          <span className="text-punch"> it runs the business for you.</span>
+        </h2>
+        <p className="mt-3 max-w-2xl text-ink-600">
+          Every MySportia venue gets the full Exsportia venue management system.
+          50+ features. No setup fee, no monthly fee.
+        </p>
+      </div>
+
+      {/* Features grid */}
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {VMS_FEATURES.map((f) => (
+          <div key={f.label} className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-ink-950/5">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-mint/10">
+              <f.icon className="h-5 w-5 text-mint" />
+            </span>
+            <p className="mt-3 font-display font-extrabold">{f.label}</p>
+            <p className="mt-1 text-sm text-ink-600">{f.text}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* The system on real devices */}
+      <img
+        src="/assets/brand/product-devices.png"
+        alt="Exsportia VMS on laptop, tablet and phone"
+        className="mx-auto mt-12 w-full max-w-4xl"
+        loading="lazy"
+      />
     </section>
   );
 }

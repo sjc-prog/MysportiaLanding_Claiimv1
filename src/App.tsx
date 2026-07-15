@@ -5,17 +5,18 @@ import ProfilePreview from './components/ProfilePreview';
 import DashboardPreview from './components/DashboardPreview';
 import TalkToUs from './components/TalkToUs';
 import {
+  CustomerSection,
   DanSection,
   FAQ,
   FilmSection,
   Footer,
   HowItWorks,
   MarketplaceSection,
-  ProductSection,
   ScreensShowcase,
   TheDeal,
   ThailandSection,
   TrustNumbers,
+  VmsSection,
 } from './components/Sections';
 import { Venue } from './data/venues';
 
@@ -85,7 +86,8 @@ export default function App() {
       />
       <TrustNumbers />
       <FilmSection />
-      <ProductSection />
+      <CustomerSection />
+      <VmsSection />
       <ScreensShowcase />
       <MarketplaceSection />
       <DanSection />
