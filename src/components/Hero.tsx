@@ -1,4 +1,5 @@
 import { CheckCircle2, Play } from 'lucide-react';
+import ScrollVideo from './ScrollVideo';
 import VenueSearch from './VenueSearch';
 import { Venue } from '../data/venues';
 
@@ -75,22 +76,16 @@ export default function Hero({ onVenueSelect }: Props) {
             </div>
           </div>
 
-          {/* Right: the hype video */}
+          {/* Right: the hype video (autoplays muted — browser rule; sound button unmutes) */}
           <div className="relative">
-            <div className="overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/50">
-              <video
-                className="aspect-[4/3] w-full bg-ink-800 object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                src="/assets/brand/hype-hero.mp4"
-              />
-            </div>
+            <ScrollVideo
+              src="/assets/brand/hype-hero.mp4"
+              className="aspect-[4/3] border border-white/10 bg-ink-800 shadow-2xl shadow-black/50"
+            />
             <div className="pointer-events-none absolute inset-x-0 -bottom-3 flex justify-center">
               <span className="flex items-center gap-2 rounded-full bg-ink-950/90 px-4 py-2 text-xs font-bold text-white/80 backdrop-blur">
                 <Play className="h-3.5 w-3.5 text-gold" />
-                This is MySportia
+                This is MySportia — tap for sound
               </span>
             </div>
           </div>

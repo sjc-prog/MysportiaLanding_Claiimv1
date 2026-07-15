@@ -19,6 +19,12 @@ export default function ScrollVideo({
   const ref = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
 
+  // React doesn't sync the `muted` prop to the DOM on re-render
+  // (facebook/react#10389) — set it imperatively.
+  useEffect(() => {
+    if (ref.current) ref.current.muted = muted;
+  }, [muted]);
+
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
