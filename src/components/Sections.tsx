@@ -60,7 +60,10 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
   }, [target]);
 
   return (
-    <p ref={ref} className="font-display text-4xl font-extrabold text-white sm:text-5xl">
+    <p
+      ref={ref}
+      className="whitespace-nowrap font-display text-3xl font-extrabold tabular-nums text-white sm:text-4xl xl:text-[2.6rem]"
+    >
       {val.toLocaleString('en-US')}
       <span className="text-punch">{suffix}</span>
     </p>
@@ -74,11 +77,11 @@ export function TrustNumbers() {
         <p className="mb-10 text-xs font-extrabold uppercase tracking-[0.2em] text-white/50">
           The platform behind the campaign
         </p>
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-5">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-10">
           {NUMBERS.map((n) => (
-            <div key={n.label}>
+            <div key={n.label} className="min-w-0">
               <CountUp target={n.value} suffix={n.suffix} />
-              <p className="mt-2 text-xs font-bold uppercase tracking-wider text-white/50">
+              <p className="mx-auto mt-2 max-w-[160px] text-xs font-bold uppercase tracking-wider text-white/50">
                 {n.label}
               </p>
             </div>
