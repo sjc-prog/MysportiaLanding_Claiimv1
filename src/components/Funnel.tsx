@@ -1,18 +1,19 @@
 import { useMemo, useState } from 'react';
-import {
-  ArrowLeft,
-  ArrowRight,
-  BadgeCheck,
-  CalendarCheck,
-  Camera,
-  CheckCircle2,
-  CreditCard,
-  Globe2,
-  Rocket,
-  Users,
-} from 'lucide-react';
+import { ArrowLeft, ArrowRight, BadgeCheck } from 'lucide-react';
 import { Venue } from '../data/venues';
 import { trackLead, trackLeadDebounced } from '../lib/leads';
+import {
+  BookingsCard,
+  CalendarCard,
+  ConciergeCard,
+  GoLiveCard,
+  LanguagesCard,
+  OneSystemCard,
+  PaymentsCard,
+  SellAnythingCard,
+  ShowcaseCard,
+  WorldwideCard,
+} from './PromoCards';
 
 interface Props {
   venue: Venue | null; // null = manual "add your venue" path
@@ -131,11 +132,8 @@ export default function Funnel({ venue, onFinish }: Props) {
         </div>
       </div>
 
-      {/* The sell */}
-      <div key={`sell-${step}`} className="mb-8 flex items-start gap-3 rounded-2xl border border-gold/25 bg-gold/10 p-4 animate-fade-up">
-        <current.sellIcon className="mt-0.5 h-6 w-6 shrink-0 text-gold" />
-        <p className="font-medium text-white/90">{current.sell}</p>
-      </div>
+      {/* The sell — a real-product promo card above every question */}
+      <div key={`sell-${step}`} className="mb-8 animate-fade-up">{current.promo}</div>
 
       {/* The ask */}
       <div key={`ask-${step}`} className="animate-fade-up">
@@ -176,8 +174,7 @@ interface StepDef {
   key: string;
   title: string;
   hint?: string;
-  sell: string;
-  sellIcon: typeof Globe2;
+  promo: JSX.Element;
   body: JSX.Element;
   canContinue?: boolean;
   cta?: string;
@@ -221,8 +218,7 @@ function buildSteps(
       hint: venue
         ? 'Claim your listing — please check your details are correct.'
         : 'Tell us where to find you.',
-      sell: "You'll be visible to customers worldwide — they find you, book you, pay you.",
-      sellIcon: Globe2,
+      promo: <WorldwideCard venueName={data.venueName || venue?.name} />,
       canContinue: data.venueName.trim().length > 1,
       cta: venue ? 'Yes, claim my listing' : 'Add my venue',
       body: (
@@ -255,8 +251,7 @@ function buildSteps(
       key: 'contact',
       title: 'Who should customers reach?',
       hint: 'Your name and role at the gym.',
-      sell: 'Customers the marketplace sends you land straight in your own system — not in someone else\'s inbox.',
-      sellIcon: Users,
+      promo: <BookingsCard />,
       canContinue: data.contactName.trim().length > 1,
       body: (
         <div className="space-y-3">
@@ -288,16 +283,14 @@ function buildSteps(
     {
       key: 'services',
       title: 'What do you offer?',
-      sell: 'Sell any membership, class pass, or package online — customers pay before they even arrive.',
-      sellIcon: CreditCard,
+      promo: <SellAnythingCard />,
       body: chips(SERVICE_OPTIONS, data.services, (o) => toggle('services', o)),
     },
     {
       key: 'schedule',
       title: 'When are you open?',
       hint: 'Rough is fine — we polish it together later.',
-      sell: 'No more double bookings, no more missed messages — your calendar runs itself.',
-      sellIcon: CalendarCheck,
+      promo: <CalendarCard />,
       body: (
         <div className="space-y-5">
           {chips(DAY_OPTIONS, data.openDays, (o) => toggle('openDays', o))}
@@ -314,8 +307,7 @@ function buildSteps(
       key: 'pricing',
       title: 'Your prices (optional)',
       hint: 'Leave blank if you prefer to set this on the call.',
-      sell: 'Get paid by card and QR — automatically, straight to you.',
-      sellIcon: CreditCard,
+      promo: <PaymentsCard />,
       body: (
         <div className="space-y-3">
           {input({
@@ -337,8 +329,7 @@ function buildSteps(
       key: 'socials',
       title: 'Where do you look your best?',
       hint: "Drop your socials — we'll pull your photos from there.",
-      sell: 'Your gym, looking its best, on every phone in Thailand and beyond.',
-      sellIcon: Camera,
+      promo: <ShowcaseCard />,
       body: (
         <div className="space-y-3">
           {input({
@@ -357,15 +348,13 @@ function buildSteps(
     {
       key: 'languages',
       title: 'What languages do you train in?',
-      sell: 'Muay Thai travelers from every continent search in their own language — be found by all of them.',
-      sellIcon: Globe2,
+      promo: <LanguagesCard />,
       body: chips(LANGUAGE_OPTIONS, data.languages, (o) => toggle('languages', o)),
     },
     {
       key: 'current_booking',
       title: 'How do you take bookings today?',
-      sell: 'Whatever you use now keeps working — we move it into one system so nothing slips.',
-      sellIcon: CheckCircle2,
+      promo: <OneSystemCard />,
       body: chips(BOOKING_OPTIONS, data.currentBooking ? [data.currentBooking] : [], (o) =>
         set('currentBooking', data.currentBooking === o ? '' : o)
       ),
@@ -373,8 +362,7 @@ function buildSteps(
     {
       key: 'go_live',
       title: 'When do you want to go live?',
-      sell: 'The campaign starts soon — gyms that are live on day one get the first wave of customers.',
-      sellIcon: Rocket,
+      promo: <GoLiveCard />,
       body: chips(GOLIVE_OPTIONS, data.goLive ? [data.goLive] : [], (o) =>
         set('goLive', data.goLive === o ? '' : o)
       ),
@@ -382,9 +370,8 @@ function buildSteps(
     {
       key: 'preview',
       title: 'Ready to see your gym in the system?',
-      hint: 'Next: a preview of your back office — then a quick call takes you live.',
-      sell: 'Jump on a quick call — we finish your setup with you and take you live. No tech skills needed.',
-      sellIcon: Rocket,
+      hint: 'Next: a preview of your venue profile and back office — then a quick call takes you live.',
+      promo: <ConciergeCard />,
       body: (
         <div className="rounded-2xl border border-white/10 bg-ink-800 p-5">
           <p className="font-semibold text-white/90">{data.venueName || 'Your gym'}</p>
