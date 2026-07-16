@@ -83,7 +83,7 @@ export default function VenueSearch({ onSelect, autoFocus }: Props) {
           aria-label="Search for your gym"
         />
         <span className="hidden shrink-0 rounded-full bg-punch px-5 py-3 text-sm font-extrabold text-white sm:block">
-          Find my gym →
+          Claim my gym →
         </span>
       </div>
 

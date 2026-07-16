@@ -39,13 +39,13 @@ export default function Hero({ onVenueSelect }: Props) {
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-ink-950 shadow-md shadow-ink-950/5">
             <span className="h-2.5 w-2.5 rounded-full bg-mint" />
-            Thailand's number one Muay Thai marketplace · launching soon
+            400+ gyms already listed — all of Thailand is going on the map
           </span>
 
-          <h1 className="mt-7 font-display text-[2.7rem] font-extrabold leading-[1.02] tracking-tight sm:text-6xl xl:text-7xl">
-            Confirm your
+          <h1 className="mt-7 font-display text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl xl:text-6xl">
+            Thailand's biggest Muay Thai marketplace is launching.
             <br />
-            <span className="text-punch">Muay Thai gym.</span>
+            <span className="text-punch">Claim your listing now.</span>
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600">
@@ -57,7 +57,7 @@ export default function Hero({ onVenueSelect }: Props) {
             <VenueSearch onSelect={onVenueSelect} />
             <p className="mt-3 flex flex-wrap items-center justify-center gap-x-2 text-sm font-semibold text-ink-600">
               <CheckCircle2 className="h-4 w-4 text-mint" />
-              400+ gyms already listed · free to claim · 2 minutes on your phone
+              Free to claim · 2 minutes on your phone
             </p>
           </div>
         </div>
