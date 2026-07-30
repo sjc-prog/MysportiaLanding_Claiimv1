@@ -1,0 +1,28 @@
+{
+  "results": [
+    {
+      "listingId": "ChIJk6zBNwef4jARCQ5MmV1odd0",
+      "ghlContactId": "example-ghl-contact-id",
+      "name": "Elite Fight Club",
+      "area": "Khlong Tan",
+      "city": "Bangkok",
+      "address": "758/22 Water Diamond Tower, Sukhumvit 30/1, Bangkok, Thailand",
+      "primarySport": "Muay Thai",
+      "sportsAndActivities": ["Muay Thai", "Boxing", "BJJ", "MMA", "HYROX", "Yoga"],
+      "claimStatus": "UNCLAIMED",
+      "action": "START_CLAIM"
+    },
+    {
+      "listingId": "ChIJclaimedexample",
+      "ghlContactId": "claimed-ghl-contact-id",
+      "name": "Example Claimed Gym",
+      "area": "Rawai",
+      "city": "Phuket",
+      "primarySport": "Muay Thai",
+      "sportsAndActivities": ["Muay Thai"],
+      "claimStatus": "CLAIMED",
+      "action": "LOGIN",
+      "loginUrl": "https://backoffice.example/login"
+    }
+  ]
+}

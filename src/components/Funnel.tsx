@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, BadgeCheck } from 'lucide-react';
-import { Venue } from '../data/venues';
+import { VenueSummary } from '../claim/viewModels';
 import { trackLead, trackLeadDebounced } from '../lib/leads';
 import {
   BookingsCard,
@@ -16,7 +16,7 @@ import {
 } from './PromoCards';
 
 interface Props {
-  venue: Venue | null; // null = manual "add your venue" path
+  venue: VenueSummary | null; // null = manual "add your venue" path
   onFinish: (data: FunnelData) => void;
 }
 
@@ -183,7 +183,7 @@ interface StepDef {
 }
 
 function buildSteps(
-  venue: Venue | null,
+  venue: VenueSummary | null,
   data: FunnelData,
   set: <K extends keyof FunnelData>(f: K, v: FunnelData[K]) => void,
   toggle: (f: 'services' | 'openDays' | 'languages', item: string) => void

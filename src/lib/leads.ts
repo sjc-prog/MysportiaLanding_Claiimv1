@@ -36,7 +36,7 @@ function getSessionId(): string {
   return sid;
 }
 
-let debounceTimers: Record<string, number> = {};
+const debounceTimers: Record<string, number> = {};
 
 export function trackLead(event: Omit<LeadEvent, 'at' | 'sessionId'>): void {
   const full: LeadEvent = {
@@ -53,7 +53,6 @@ export function trackLead(event: Omit<LeadEvent, 'at' | 'sessionId'>): void {
     // storage full/unavailable — still attempt delivery
   }
 
-  // eslint-disable-next-line no-console
   console.info('[lead]', full.type, full.field ?? full.venueName ?? '', full);
 
   if (WEBHOOK_URL) {

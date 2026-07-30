@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "1.0",
+  "session": {
+    "id": "claim_session_example",
+    "campaign": "combat-sports",
+    "locale": "en",
+    "expiresAt": "2026-07-19T00:00:00Z",
+    "seedHash": "sha256-example"
+  },
+  "identity": {
+    "ghlContactId": "example-ghl-contact-id",
+    "listingId": "ChIJk6zBNwef4jARCQ5MmV1odd0",
+    "googlePlaceId": "ChIJk6zBNwef4jARCQ5MmV1odd0",
+    "claimStatus": "UNCLAIMED",
+    "venueName": "Elite Fight Club",
+    "normalisedVenueName": "Elite Fight Club"
+  },
+  "directoryListing": {
+    "id": "ChIJk6zBNwef4jARCQ5MmV1odd0",
+    "name": "Elite Fight Club",
+    "area": "Khlong Tan",
+    "city": "Bangkok",
+    "address": "758/22 Water Diamond Tower, Sukhumvit 30/1, Bangkok, Thailand",
+    "phone": "+6626613546",
+    "website": "http://www.elitefightclub.com/"
+  },
+  "marketplaceProfile": {
+    "name": "Elite Fight Club",
+    "description": "A multi-discipline combat sports and functional fitness venue in Bangkok.",
+    "primarySport": "Muay Thai",
+    "sportsAndActivities": ["Muay Thai", "Boxing", "BJJ", "MMA", "HYROX", "Yoga"],
+    "services": [],
+    "classes": [],
+    "trainers": [],
+    "approvedMedia": [],
+    "bookingMode": "DIRECT_CONTACT"
+  },
+  "entities": {
+    "areas": [],
+    "services": [],
+    "classes": [],
+    "classSessions": [],
+    "privateSessions": [],
+    "trainers": [],
+    "memberships": [],
+    "packages": []
+  },
+  "contactHints": {
+    "primaryContactName": "",
+    "primaryContactRole": "",
+    "ownerName": "",
+    "managerName": "",
+    "preferredLanguage": "en"
+  },
+  "review": {
+    "dataGaps": [],
+    "warnings": []
+  },
+  "ui": {
+    "campaign": "combat-sports",
+    "locale": "en",
+    "approvedMedia": [],
+    "displayClassifications": true
+  }
+}

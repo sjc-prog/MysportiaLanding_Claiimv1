@@ -1,9 +1,9 @@
 import { CheckCircle2 } from 'lucide-react';
 import VenueSearch from './VenueSearch';
-import { Venue } from '../data/venues';
+import { ClaimSearchResult } from '../claim/types';
 
 interface Props {
-  onVenueSelect: (venue: Venue | null) => void;
+  onVenueSelect: (result: ClaimSearchResult | null) => void;
 }
 
 /**
